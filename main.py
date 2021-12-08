@@ -57,7 +57,6 @@ def shuffle_answers():
 
 def handle_input(input, question):
     global level
-
     if input == question.get_index():
         print("You chose the right answer! lucky!")
         level = level + 1
