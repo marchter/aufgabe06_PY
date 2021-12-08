@@ -60,11 +60,14 @@ def handle_input(input, question):
 
     if input == question.get_index():
         print("You chose the right answer! lucky!")
+        print("------------------------------------------------------------")
+        print("NEXT QUESTION")
         level = level + 1
+
     else:
-        print("You lost!")
-        level = level + 6
         play_effect("lose.wav")
+        print("YOU LOST! Better luck next time!")
+        level = level + 6
 
 def play_effect(effect):
 
@@ -76,7 +79,7 @@ def print_game():
     play_effect("lets_play.wav")
     question = get_rand_question(level)
     print("------------------------------------------------------------")
-    print("Your current level is: " + str(level) + "\n")
+    print("Your current difficulty is: " + str(level) + "\n")
     print(question.get_question())
     i = 0
     for a in question.get_answers():
@@ -85,12 +88,11 @@ def print_game():
     print("\nWhat answer do you choose? Think carefully!\n")
     handle_input(int(input()), question)
 
-    print("------------------------------------------------------------")
-
-
 if __name__ == '__main__':
     set_questions()
     shuffle_answers()
+    #play_effect("background.wav")
+    #TODO: fix background music
 
     while level <= 5:
         print_game()
