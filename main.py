@@ -1,7 +1,7 @@
 import random
 from model import Question
+from threading import Thread
 from playsound import playsound
-
 
 # INDEX = WELCHE ANTWORT RICHTIG IST
 
@@ -64,12 +64,17 @@ def handle_input(input, question):
     else:
         print("You lost!")
         level = level + 6
+        play_effect("lose.wav")
 
+def play_effect(effect):
+
+    play_thread = Thread(target=lambda: playsound("sounds/"+effect))
+    play_thread.start()
 
 
 def print_game():
+    play_effect("lets_play.wav")
     question = get_rand_question(level)
-    playsound('lets_play.wav')
     print("------------------------------------------------------------")
     print("Your current level is: " + str(level) + "\n")
     print(question.get_question())
@@ -78,7 +83,6 @@ def print_game():
         print('\t(%d), %s' % (i, a))
         i = i + 1
     print("\nWhat answer do you choose? Think carefully!\n")
-
     handle_input(int(input()), question)
 
     print("------------------------------------------------------------")
@@ -87,5 +91,6 @@ def print_game():
 if __name__ == '__main__':
     set_questions()
     shuffle_answers()
+
     while level <= 5:
         print_game()
