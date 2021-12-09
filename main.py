@@ -59,7 +59,7 @@ def handle_input(input, question):
     global level
 
     if input == question.get_index():
-        print("You chose the right answer! lucky!")
+        print("You chose the right answer! Lucky!")
         print("------------------------------------------------------------")
         print("NEXT QUESTION")
         level = level + 1
@@ -67,6 +67,7 @@ def handle_input(input, question):
     else:
         play_effect("lose.wav")
         print("YOU LOST! Better luck next time!")
+        print("The true answer was "+question.get_answers()[question.get_index()])
         level = level + 6
 
 def play_effect(effect):
