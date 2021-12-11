@@ -1,13 +1,15 @@
 import random
+import time
 from model import Question
 from threading import Thread
 from playsound import playsound
+import sys
 
 # INDEX = WELCHE ANTWORT RICHTIG IST
 
 fName = "millionaire.txt"
 questions = []
-level=0
+level = 0
 
 
 def read_questions():
@@ -67,13 +69,16 @@ def handle_input(input, question):
     else:
         play_effect("lose.wav")
         print("YOU LOST! Better luck next time!")
-        print("The true answer was "+question.get_answers()[question.get_index()])
-        level = level + 6
+        print("The correct answer was " + question.get_answers()[question.get_index()])
+        time.sleep(2)
+        sys.exit()
+
 
 def play_effect(effect):
-
-    play_thread = Thread(target=lambda: playsound("sounds/"+effect))
+    play_thread = Thread(target=lambda: playsound("sounds/" + effect))
+    play_thread.daemon = True
     play_thread.start()
+
 
 
 def print_game():
@@ -89,11 +94,16 @@ def print_game():
     print("\nWhat answer do you choose? Think carefully!\n")
     handle_input(int(input()), question)
 
+
 if __name__ == '__main__':
     set_questions()
     shuffle_answers()
-    #play_effect("background.wav")
-    #TODO: fix background music
+    play_effect("background.wav")
+    #TODO: set background volume and stop background music when other effect is played AND handle win(correct answer on question 4)
 
-    while level <= 5:
+    while level < 5:
         print_game()
+    if level == 5:
+
+        print("Oh there isn't a next question! YOU WON")
+
