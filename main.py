@@ -1,4 +1,4 @@
-import random
+
 import time
 from model import Question
 from threading import Thread
@@ -7,54 +7,8 @@ import sys
 
 # INDEX = WELCHE ANTWORT RICHTIG IST
 
-fName = "millionaire.txt"
 questions = []
 level = 0
-
-
-def read_questions():
-    q = []
-    f = open(fName, "r")
-
-    for line in f.readlines():
-        q.append(line.split("\t")[1])
-    f.close()
-    return q
-
-
-def read_question(line):
-    return read_questions()[line]
-
-
-def get_rand_question(level):
-    f = open(fName, "r")
-    pool = []
-    i = 0
-    for q in questions:
-        if level == int(q.get_level()):
-            pool.append(questions[i])
-        i = i + 1
-    f.close()
-    return pool[random.randint(0, (len(pool) - 1))]
-
-
-def set_questions():
-    f = open(fName, "r")
-    i = 0
-    for q in f.readlines():
-        line = q.split("\t")
-        questions.append(Question(line[1], line[0], [(line[2]), (line[3]), (line[4]), line[5].replace("\n", "")], 1))
-        i = i + 1
-
-
-def shuffle_answers():
-    for q in questions:
-        q.set_index(random.randint(0, len(q.get_answers()) - 1))
-        answers = q.get_answers()
-        ind = q.get_index()
-        answers[0], answers[ind] = answers[ind], answers[0]
-        q.set_answers(answers)
-        q.set_answers((q.get_answers()))
 
 
 def handle_input(input, question):
@@ -83,7 +37,7 @@ def play_effect(effect):
 
 def print_game():
     play_effect("lets_play.wav")
-    question = get_rand_question(level)
+    question = Question.get_rand_question(level)
     print("------------------------------------------------------------")
     print("Your current difficulty is: " + str(level) + "\n")
     print(question.get_question())
@@ -96,9 +50,9 @@ def print_game():
 
 
 if __name__ == '__main__':
-    set_questions()
-    shuffle_answers()
+    Question.shuffle_answers()
     play_effect("background.wav")
+
     #TODO: set background volume and stop background music when other effect is played AND handle win(correct answer on question 4)
 
     while level < 5:
