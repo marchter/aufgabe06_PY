@@ -3,6 +3,7 @@ from random import random
 class Question:
     global questions
 
+
     def __init__(self, question, level, answers, index):
         self._question = question
         self._level = level
